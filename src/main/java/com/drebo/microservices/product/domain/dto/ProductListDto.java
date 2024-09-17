@@ -11,5 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductListDto {
 
-    List<ProductDto> productListDto;
+    private List<ProductDto> productListDto;
 }
