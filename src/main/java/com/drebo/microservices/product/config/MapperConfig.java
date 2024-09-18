@@ -4,11 +4,19 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigDecimal;
+
 @Configuration
 public class MapperConfig {
 
     @Bean
     public ModelMapper modelMapper(){
-        return new ModelMapper();
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.typeMap(String.class, BigDecimal.class).setConverter(t -> new BigDecimal(t.getSource()));
+        modelMapper.typeMap(BigDecimal.class, String.class).setConverter(t -> t.getSource().toString());
+
+        return modelMapper;
     }
 }

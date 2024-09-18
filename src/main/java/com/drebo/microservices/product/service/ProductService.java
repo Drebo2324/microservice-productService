@@ -35,4 +35,8 @@ public class ProductService {
         List<ProductDto> allProductsDto = allProducts.stream().map(productMapper::mapTo).toList();
         return new ProductListDto(allProductsDto);
     }
+
+    public void deleteAllProducts(){
+        productRepository.deleteAll();
+    }
 }
