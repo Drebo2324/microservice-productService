@@ -22,6 +22,7 @@ public class ProductService {
     }
 
     public ProductDto createProduct(ProductDto productDto){
+        log.info(String.valueOf(productDto));
         Product productEntity = productMapper.mapFrom(productDto);
         Product savedProduct = productRepository.save(productEntity);
         log.info("Product created");
@@ -37,5 +38,16 @@ public class ProductService {
 
     public void deleteAllProducts(){
         productRepository.deleteAll();
+        log.info("Deleted all products");
+    }
+
+    public void deleteProduct(String id){
+        log.info("Trying to delete product with id: {}", id);
+        productRepository.findById(id).ifPresentOrElse(product -> {
+            productRepository.delete(product);
+            log.info("Product with id: {} deleted", id);
+        }, () -> {
+            log.error("Product with id {} not found", id);
+        });
     }
 }
