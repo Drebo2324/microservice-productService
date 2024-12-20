@@ -22,10 +22,10 @@ public class ProductService {
     }
 
     public ProductDto createProduct(ProductDto productDto){
-        log.info(String.valueOf(productDto));
+        log.info("Creating product: {}", productDto);
         Product productEntity = productMapper.mapFrom(productDto);
         Product savedProduct = productRepository.save(productEntity);
-        log.info("Product created");
+        log.info("Product created: {}", savedProduct);
 
         return productMapper.mapTo(savedProduct);
     }
@@ -33,6 +33,7 @@ public class ProductService {
     public ProductListDto getAllProducts(){
         List<Product> allProducts = productRepository.findAll();
         List<ProductDto> allProductsDto = allProducts.stream().map(productMapper::mapTo).toList();
+        log.info("All products retrieved");
         return new ProductListDto(allProductsDto);
     }
 
