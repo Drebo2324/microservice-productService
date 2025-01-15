@@ -34,9 +34,9 @@ public class ProductController {
     }
 
     //TODO: FIX DELETE ENDPOINT
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable String id){
+    public void deleteProduct(@PathVariable("id") String id){
         log.info("Delete request-> product id: {}", id);
         productService.deleteProduct(id);
     }

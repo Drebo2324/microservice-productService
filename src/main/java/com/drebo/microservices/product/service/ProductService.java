@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -26,7 +27,6 @@ public class ProductService {
         Product productEntity = productMapper.mapFrom(productDto);
         Product savedProduct = productRepository.save(productEntity);
         log.info("Product created: {}", savedProduct);
-
         return productMapper.mapTo(savedProduct);
     }
 
@@ -42,13 +42,12 @@ public class ProductService {
         log.info("Deleted all products");
     }
 
-    public void deleteProduct(String id){
-        log.info("Trying to delete product with id: {}", id);
-        productRepository.findById(id).ifPresentOrElse(product -> {
-            productRepository.delete(product);
-            log.info("Product with id: {} deleted", id);
-        }, () -> {
-            log.error("Product with id {} not found", id);
-        });
+    public void deleteProduct(String id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            log.info("Product deleted: {}", id);
+        } else {
+            log.warn("Product not found with id: {}", id);
+        }
     }
 }
